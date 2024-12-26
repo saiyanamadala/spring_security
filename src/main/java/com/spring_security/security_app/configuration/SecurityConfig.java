@@ -38,24 +38,24 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(){                     //UserDetailsService is used to verify from database
-        UserDetails user1 = User                                        //User implements UserDetails interface
-                .withDefaultPasswordEncoder()
-                .username("sai")
-                .password("sai@123")
-                .roles("USER")
-                .build();
-
-        UserDetails user2 = User
-                .withDefaultPasswordEncoder()
-                .username("ram")
-                .password("ram@123")
-                .roles("ADMIN")
-                .build();
-
-        return new InMemoryUserDetailsManager(user1,user2);                        //UserDetailsService is an Interface and InMemoryUserDetailsManager implements it
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(){                     //UserDetailsService is used to verify from database
+//        UserDetails user1 = User                                        //User implements UserDetails interface
+//                .withDefaultPasswordEncoder()
+//                .username("sai")
+//                .password("sai@123")
+//                .roles("USER")
+//                .build();
+//
+//        UserDetails user2 = User
+//                .withDefaultPasswordEncoder()
+//                .username("ram")
+//                .password("ram@123")
+//                .roles("ADMIN")
+//                .build();
+//
+//        return new InMemoryUserDetailsManager(user1,user2);                        //UserDetailsService is an Interface and InMemoryUserDetailsManager implements it
+//    }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
