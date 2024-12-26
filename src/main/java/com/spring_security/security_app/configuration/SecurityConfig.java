@@ -4,9 +4,11 @@ import com.spring_security.security_app.service.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -29,7 +31,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityConfiguration(HttpSecurity http) throws Exception {
 
         http.csrf(customizer->customizer.disable());  //disabling csrf for implementing STATELESS REST Api
-        http.authorizeHttpRequests(request->request.anyRequest().authenticated());  //any request must be authenticated
+        http.authorizeHttpRequests(request->request.requestMatchers("login","register").permitAll().anyRequest().authenticated());  //any request must be authenticated except login and register
         //http.formLogin(Customizer.withDefaults()); //enables form login with defaults in application.properties
         //formLogin() is disabled because the
         http.httpBasic(Customizer.withDefaults()); //enables authentication for postman
@@ -63,5 +65,10 @@ public class SecurityConfig {
         provider.setPasswordEncoder(new BCryptPasswordEncoder(10));         //using Bcrypt password encoder with strength 10
         provider.setUserDetailsService(userDetailsService);
         return provider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
     }
 }
